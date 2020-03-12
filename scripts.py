@@ -1,15 +1,20 @@
-import csv
 import datetime as dt
-import matplotlib.pyplot as pl
 
-class Data:
-	'''
-	Data: class for each individual data set (confirmed cases, deaths, recovered)
-	'''
-	def __init__(self,filename):
-		with open(filename) as csvfile:
-			self.read_in_data = csv.DictReader(csvfile,delimiter=",")
-		
-
-
-confirmed_cases = Data("ts.csv")
+def make_day_to_mdy(day):
+		day_to_mdy = {}
+		for i in range(1,day+1):
+			try:
+				day_to_mdy[i] = dt.date(2020,1,21+i).strftime("%m/%d/%Y")
+			except:
+				try:
+					day_to_mdy[i] = dt.date(2020,2,i-10).strftime("%m/%d/%Y")
+				except:
+					try: 
+						day_to_mdy[i] = dt.date(2020,3,i-39).strftime("%m/%d/%Y")
+					except:
+						try:
+							day_to_mdy[i] = dt.date(2020,4,i-79).strftime("%m/%d/%Y")
+						except:
+							break
+		mdy_to_day = dict(map(reversed,day_to_mdy.items()))
+		return day_to_mdy, mdy_to_day
